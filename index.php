@@ -1,23 +1,36 @@
 <?php
+
 $host = "localhost";
 $db = "gamemania";
 $user = "root"; // ou ton nom d'utilisateur
 $pass = "";     // ou ton mot de passe
 
-$conn = new mysqli($host, $user, $pass, $db);
-if ($conn->connect_error) {
-    die("Connexion échouée : " . $conn->connect_error);
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8", $user, $pass);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Connexion échouée : " . $e->getMessage());
 }
 
 // Requête avec jointure pour récupérer les infos de plateforme (sous-catégorie)
 $sql = "SELECT p.nom AS nom_jeu, p.description, p.prix, p.image_url, p.stock, s.nom AS plateforme
         FROM produits p
         JOIN subcategories s ON p.sous_categorie_id = s.id
-        WHERE p.categorie_id = 1 AND p.id = 4"; 
-        
-        
+        WHERE p.sous_categorie_id = 1 LIMIT 2";
 
-$result = $conn->query($sql);
+$sql2 = "SELECT p.nom AS nom_jeu, p.description, p.prix, p.image_url, p.stock, s.nom AS plateforme
+        FROM produits p
+        JOIN subcategories s ON p.sous_categorie_id = s.id
+        WHERE p.sous_categorie_id = 4 LIMIT 2";
+
+$sql3 = "SELECT p.nom AS nom_jeu, p.description, p.prix, p.image_url, p.stock, s.nom AS plateforme
+        FROM produits p
+        JOIN subcategories s ON p.sous_categorie_id = s.id
+        WHERE p.sous_categorie_id = 3 LIMIT 2";
+
+$stmt = $pdo->query($sql);
+$stmt2 = $pdo->query($sql2);
+$stmt3 = $pdo->query($sql3);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,7 +39,7 @@ $result = $conn->query($sql);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <script src="fonction.js" defer></script>
+    <script src="srcipt.js" defer></script>
     <link rel="stylesheet" href="index.css">
 <body>
     <header>
@@ -40,30 +53,52 @@ $result = $conn->query($sql);
                 <a href="panier.php"><img src="asset/logo/panier.png" alt="logo switch"   /></a>
                 
                 <div id="search-container">
-                    <input type="text" id="search-bar" placeholder="Rechercher un jeux...">
-                    <ul id="autocomplete-list"></ul>
-                </div>
+    <input type="text" id="search-bar" placeholder="Rechercher un jeu...">
+    <ul id="autocomplete-list"></ul> <!-- Liste pour les suggestions -->
+</div>
         </div>
     </header>
     <img id ="tekken" src="asset/image/tekken.png" alt="logo c"/><br>
+    <h4>Top Ventes</h4>
         <?php
-            if ($result->num_rows > 0) {
-                while($jeu = $result->fetch_assoc()) {
-        
-                echo "<div class='recent'>";
-                echo "<img src='" . htmlspecialchars($jeu['image_url']) . "' alt='Image du jeu'><br>";
-                echo "<h3>" . htmlspecialchars($jeu['nom_jeu']) . "</h3>";
-                echo "<strong>Prix:</strong> " . number_format($jeu['prix']) . " €<br>";
-                echo "<button type='button' onclick='alert(\"Vous avez aimé " . htmlspecialchars($jeu['nom_jeu']) . "!\")'><img src = 'asset/logo/coeur.png'</button>";
-                echo "<button type='button' onclick='alert(\"Vous avez ajouté  " . htmlspecialchars($jeu['nom_jeu']) . " au panier !\")'><img src = 'asset/logo/panier.png'</button>";
-                echo "</div>";
+            if ($stmt->rowCount() > 0) {
+                while($jeu = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                    echo "<div class='recent'>";
+                    echo "<img src='" . htmlspecialchars($jeu['image_url']) . "' alt='Image du jeu'><br>";
+                    echo "<h3>" . htmlspecialchars($jeu['nom_jeu']) . "</h3>";
+                    echo "<strong>Prix:</strong> " . number_format($jeu['prix']) . " €<br>";
+                    echo "<button type='button' onclick='alert(\"Vous avez ajouté  " . htmlspecialchars($jeu['nom_jeu']) . " au panier !\")'><img src = 'asset/logo/panier.png'</button>";
+                    echo "</div>";
                 }
-                } else {
-                        echo "Aucun jeu trouvé dans la base de données.";
-                        }
-                $conn->close();
+            } else {
+                echo "Aucun jeu trouvé dans la base de données.";
+            }
+
+            if ($stmt2->rowCount() > 0) {
+                while($jeu = $stmt2->fetch(PDO::FETCH_ASSOC)) {
+                    echo "<div class='recent'>";
+                    echo "<img src='" . htmlspecialchars($jeu['image_url']) . "' alt='Image du jeu'><br>";
+                    echo "<h3>" . htmlspecialchars($jeu['nom_jeu']) . "</h3>";
+                    echo "<strong>Prix:</strong> " . number_format($jeu['prix']) . " €<br>";
+                    echo "<button type='button' onclick='alert(\"Vous avez ajouté  " . htmlspecialchars($jeu['nom_jeu']) . " au panier !\")'><img src = 'asset/logo/panier.png'</button>";
+                    echo "</div>";
+                }
+            } else {
+                echo "Aucun jeu trouvé dans la base de données.";
+            }
+
+            if ($stmt3->rowCount() > 0) {
+                while($jeu = $stmt3->fetch(PDO::FETCH_ASSOC)) {
+                    echo "<div class='recent'>";
+                    echo "<img src='" . htmlspecialchars($jeu['image_url']) . "' alt='Image du jeu'><br>";
+                    echo "<h3>" . htmlspecialchars($jeu['nom_jeu']) . "</h3>";
+                    echo "<strong>Prix:</strong> " . number_format($jeu['prix']) . " €<br>";
+                    echo "<button type='button' onclick='alert(\"Vous avez ajouté  " . htmlspecialchars($jeu['nom_jeu']) . " au panier !\")'><img src = 'asset/logo/panier.png'</button>";
+                    echo "</div>";
+                }
+            } else {
+                echo "Aucun jeu trouvé dans la base de données.";
+            }
         ?>
-    
-    
 </body>
 </html>
