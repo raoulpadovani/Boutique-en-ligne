@@ -40,35 +40,45 @@ $stmt3 = $pdo->query($sql3);
     <title>Document</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="srcipt.js" defer></script>
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="./css/index.css">
+</head>
 <body>
     <header>
         <div class="tete">
                 <a href="index.php"><img src="asset/logo/titre.png" alt="logo c" class ="src"  /></a>
                 <h1 class="titre">GameMania</h1>
-                <a href="ps.php"><img src="asset/logo/ps.png" alt="logo ps"   /></a>
-                <a href="xbox.php"><img src="asset/logo/xbox.png" alt="logo xbox"   /></a>
-                <a href="switch.php"><img src="asset/logo/switch.png" alt="logo switch"   /></a>
-                <a href="login.php"><img src="asset/logo/connexion.png" alt="logo switch"   /></a>
-                <a href="panier.php"><img src="asset/logo/panier.png" alt="logo switch"   /></a>
+                <a href="./php/ps.php"><img src="asset/logo/ps.png" alt="logo ps"   /></a>
+                <a href="./php/xbox.php"><img src="asset/logo/xbox.png" alt="logo xbox"   /></a>
+                <a href="./php/switch.php"><img src="asset/logo/switch.png" alt="logo switch"   /></a>
+                <a href="./php/login.php"><img src="asset/logo/connexion.png" alt="logo switch"   /></a>
+                <a href="./php/panier.php"><img src="asset/logo/panier.png" alt="logo switch"   /></a>
                 
                 <div id="search-container">
     <input type="text" id="search-bar" placeholder="Rechercher un jeu...">
-    <ul id="autocomplete-list"></ul> <!-- Liste pour les suggestions -->
+    <ul id="autocomplete-list"></ul> 
 </div>
         </div>
     </header>
-    <img id ="tekken" src="asset/image/tekken.png" alt="logo c"/><br>
-    <h4>Top Ventes</h4>
+    <img id ="tekken" src="asset/image/tekken.png" alt="logo c"/><br><br>
+    <h4>Top Ventes</h4><br>
         <?php
             if ($stmt->rowCount() > 0) {
                 while($jeu = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                    // Lien vers detail.php avec image et prix en GET
+                    echo "<a href='detail.php?image=" . urlencode($jeu['image_url']) . "&prix=" . urlencode($jeu['prix']) . "' style='text-decoration:none;color:inherit;'>";
                     echo "<div class='recent'>";
                     echo "<img src='" . htmlspecialchars($jeu['image_url']) . "' alt='Image du jeu'><br>";
                     echo "<h3>" . htmlspecialchars($jeu['nom_jeu']) . "</h3>";
                     echo "<strong>Prix:</strong> " . number_format($jeu['prix']) . " €<br>";
-                    echo "<button type='button' onclick='alert(\"Vous avez ajouté  " . htmlspecialchars($jeu['nom_jeu']) . " au panier !\")'><img src = 'asset/logo/panier.png'</button>";
+                    // Formulaire pour ajouter au panier
+echo "<form method='post' action='php/ajouter_panier.php' style='display:inline;'>";
+echo "<input type='hidden' name='image_url' value='" . htmlspecialchars($jeu['image_url']) . "'>";
+echo "<input type='hidden' name='nom_jeu' value='" . htmlspecialchars($jeu['nom_jeu']) . "'>";
+echo "<input type='hidden' name='prix' value='" . htmlspecialchars($jeu['prix']) . "'>";
+echo "<button type='submit'><img src = 'asset/logo/panier.png'></button>";
+echo "</form>";
                     echo "</div>";
+                    echo "</a>";
                 }
             } else {
                 echo "Aucun jeu trouvé dans la base de données.";
@@ -76,12 +86,20 @@ $stmt3 = $pdo->query($sql3);
 
             if ($stmt2->rowCount() > 0) {
                 while($jeu = $stmt2->fetch(PDO::FETCH_ASSOC)) {
+                    echo "<a href='detail.php?image=" . urlencode($jeu['image_url']) . "&prix=" . urlencode($jeu['prix']) . "' style='text-decoration:none;color:inherit;'>";
                     echo "<div class='recent'>";
                     echo "<img src='" . htmlspecialchars($jeu['image_url']) . "' alt='Image du jeu'><br>";
                     echo "<h3>" . htmlspecialchars($jeu['nom_jeu']) . "</h3>";
                     echo "<strong>Prix:</strong> " . number_format($jeu['prix']) . " €<br>";
-                    echo "<button type='button' onclick='alert(\"Vous avez ajouté  " . htmlspecialchars($jeu['nom_jeu']) . " au panier !\")'><img src = 'asset/logo/panier.png'</button>";
+                    // Formulaire pour ajouter au panier
+echo "<form method='post' action='php/ajouter_panier.php' style='display:inline;'>";
+echo "<input type='hidden' name='image_url' value='" . htmlspecialchars($jeu['image_url']) . "'>";
+echo "<input type='hidden' name='nom_jeu' value='" . htmlspecialchars($jeu['nom_jeu']) . "'>";
+echo "<input type='hidden' name='prix' value='" . htmlspecialchars($jeu['prix']) . "'>";
+echo "<button type='submit'><img src = 'asset/logo/panier.png'></button>";
+echo "</form>";
                     echo "</div>";
+                    echo "</a>";
                 }
             } else {
                 echo "Aucun jeu trouvé dans la base de données.";
@@ -89,16 +107,25 @@ $stmt3 = $pdo->query($sql3);
 
             if ($stmt3->rowCount() > 0) {
                 while($jeu = $stmt3->fetch(PDO::FETCH_ASSOC)) {
+                    echo "<a href='detail.php?image=" . urlencode($jeu['image_url']) . "&prix=" . urlencode($jeu['prix']) . "' style='text-decoration:none;color:inherit;'>";
                     echo "<div class='recent'>";
                     echo "<img src='" . htmlspecialchars($jeu['image_url']) . "' alt='Image du jeu'><br>";
                     echo "<h3>" . htmlspecialchars($jeu['nom_jeu']) . "</h3>";
                     echo "<strong>Prix:</strong> " . number_format($jeu['prix']) . " €<br>";
-                    echo "<button type='button' onclick='alert(\"Vous avez ajouté  " . htmlspecialchars($jeu['nom_jeu']) . " au panier !\")'><img src = 'asset/logo/panier.png'</button>";
+                    // Formulaire pour ajouter au panier
+echo "<form method='post' action='php/ajouter_panier.php' style='display:inline;'>";
+echo "<input type='hidden' name='image_url' value='" . htmlspecialchars($jeu['image_url']) . "'>";
+echo "<input type='hidden' name='nom_jeu' value='" . htmlspecialchars($jeu['nom_jeu']) . "'>";
+echo "<input type='hidden' name='prix' value='" . htmlspecialchars($jeu['prix']) . "'>";
+echo "<button type='submit'><img src = 'asset/logo/panier.png'></button>";
+echo "</form>";
                     echo "</div>";
+                    echo "</a>";
                 }
             } else {
                 echo "Aucun jeu trouvé dans la base de données.";
             }
         ?>
+        
 </body>
 </html>

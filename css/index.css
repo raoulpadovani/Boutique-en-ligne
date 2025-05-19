@@ -68,14 +68,14 @@ h6 {
     left: 0;
     width: 300px;
     border: 1px solid #f1f0f0;
-    background-color: #eae8e8;
+    background-color: #1010101c;
     z-index: 1000;
     list-style: none;
     padding: 0;
     margin: 0;
     max-height: 200px;
     overflow-y: auto;
-    color: #ca341368;
+    color: #fffefe;
   }
   
 #autocomplete-list li {
@@ -84,7 +84,7 @@ h6 {
     }
   
 #autocomplete-list li:hover {
-    background-color: #f0f0f0;
+    background-color: #f0f0f02d;
     }
 
 /* corps index */
@@ -203,4 +203,111 @@ h2{
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     color: #8c52ff;
     margin-left: -60px;
+}
+.deco {
+    margin-top: 20px;
+    margin-left: -40px;
+    padding: 10px;
+    background-color: #5a5858;
+    color: #fffefe;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    
+}
+.deco a {
+    text-decoration: none;
+    color: #fffefe;
+}
+
+.deco:hover {
+    background-color: #8c52ff;
+}
+.deco:active {
+    background-color: #5a5858;
+}
+
+
+/* page detail */
+
+.detail2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-left: 20%;
+    padding-right: 20%;
+}
+.detail2 img {
+    max-width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    margin-left: 0%;
+}
+.detail2 button {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #5a585800;
+    color: #fffefe;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.detail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-left: 20%;
+    padding-right: 20%;
+}
+h5{
+    font-size: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #f5f4f8;
+    text-align: center;
+}
+.retour{
+    list-style: none;
+    text-decoration: none;
+    color: #fffefe;
+}
+#retour {
+    margin-top: 20px;
+    margin-left: 10px;
+    padding: 10px;
+    background-color: #5a5858;
+    color: #fffefe;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#retour:hover {
+    background-color: #8c52ff;
+}
+#retour:active {
+    background-color: #5a5858;
+}
+
+/*panier*/
+.supprimer {
+    margin-top: 20px;
+    
+    padding: 10px;
+    background-color: #5a5858;
+    color: #fffefe;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    
+}
+.supprimer a {
+    text-decoration: none;
+    color: #fffefe;
+}
+
+.supprimer:hover {
+    background-color: #8c52ff;
+}
+.supprimer:active {
+    background-color: #5a5858;
 }
